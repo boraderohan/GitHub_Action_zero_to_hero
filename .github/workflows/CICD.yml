@@ -3,7 +3,15 @@ name: CICD
 # Manual click (dilver) workflow whenever user needs
 on:
   workflow_dispatch:
-
+    inputs:
+      environment:
+        description: this the environment where this workflow runs
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prod
+          - staging
 jobs:
 
 # every jobs needs seperate runners, it is called parallelism 
