@@ -31,11 +31,12 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: Test the contianer 
-        run: echo "Testing the contianer"
+      - name: Test the container 
+        run: echo "Testing the container"
   deploy:
+    if: ${{ inputs.environment == 'dev' }}
     needs: [build, test]
     runs-on: ubuntu-latest
     steps:
-      - name:  Depolying the app 
+      - name:  Deploying the app 
         run: echo "Docker compose deployed the app"
