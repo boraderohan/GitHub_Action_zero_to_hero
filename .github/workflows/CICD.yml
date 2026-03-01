@@ -6,6 +6,7 @@ on:
 
 jobs:
 
+# every jobs needs seperate runners, it is called parallelism 
 
   code:
     runs-on: ubuntu-latest
@@ -13,16 +14,19 @@ jobs:
       - name: checkout code
         run: echo "code clone from GitHub"
   build:
+    needs: [code]
     runs-on: ubuntu-latest
     steps:
       - name: Build Docker Container
         run: echo "Docker Container build"
   test:
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Test the contianer 
         run: echo "Testing the contianer"
   deploy:
+    needs: [build, test]
     runs-on: ubuntu-latest
     steps:
       - name:  Depolying the app 
