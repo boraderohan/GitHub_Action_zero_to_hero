@@ -2,8 +2,7 @@
 name: Hello workflow!
 # run on an automatic tigger, when ever changes is pushed to branch deployment
 on: 
-  push: 
-    branches: [main]
+  workflow_dispatch:  
 
 # These are jobs inside the workflows
 jobs: 
