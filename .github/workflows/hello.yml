@@ -1,0 +1,17 @@
+# This workflow name
+name: Hello workflow!
+
+on: 
+  push: 
+    branches: [main]
+
+# These are jobs inside the workflows
+jobs: 
+# this is the name of the job
+    greet:
+      runs-on: ubuntu-latest
+      steps:
+        - name: say Hello to users 
+          run: echo "Hello Dosto"
+        - name: say Hello to username
+          run: echo "Hello $USER"
