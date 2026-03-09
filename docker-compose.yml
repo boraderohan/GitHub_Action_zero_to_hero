@@ -1,6 +1,6 @@
-service:
+services:
 
   web:
-    image: ${{ DOCKER_USER }}/git-actions-app:latest
+    image: ${DOCKERHUB_USER}/github-actions-app:${DOCKER_TAG}
     ports:
-      - "80:80"
+     - "80:80"
