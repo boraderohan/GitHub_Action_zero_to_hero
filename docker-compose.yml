@@ -1,0 +1,6 @@
+service:
+
+  web:
+    image: ${{ DOCKER_USER }}/git-actions-app:latest
+    ports:
+      - "80:80"
