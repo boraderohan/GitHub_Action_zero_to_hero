@@ -1,8 +1,9 @@
 name: Portfolio
 
 on:
-    push:
-        branches: [main]
+
+  #  push:
+   #     branches: [main]
     workflow_dispatch:
 
 permissions:
@@ -13,9 +14,9 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
 
-        env:
+        environment:
             name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }} 
+            url: ${{ steps["Deploy to Github pages"].outputs.page_url }}
 
         steps:
             # get access to your Portfolio code via pre-built actions
@@ -38,5 +39,5 @@ jobs:
             
             # Make page Live
             # STEP 4
-            - name: Deploy to Github pages
+            - name: deployment
               uses: actions/deploy-pages@v4

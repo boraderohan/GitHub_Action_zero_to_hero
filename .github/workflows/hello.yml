@@ -2,10 +2,13 @@
 name: Hello workflow!
 # run on an automatic tigger, when ever changes is pushed to branch deployment
 on: 
-  push: 
-    branches: [main]
-    paths:
-      - "**.html"
+
+  workflow_dispatch:
+
+  #push: 
+   # branches: [main]
+    #paths:
+     # - "**.html"
 
 # These are jobs inside the workflows
 jobs: 
