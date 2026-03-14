@@ -4,6 +4,7 @@ on:
     push:
         branches: [main]
 jobs:
+    # CI (Continuous Integration with Security Scannig)
     code-quality:
         uses: ./.github/workflows/code-quality.yml
     secrets-scan:
@@ -11,5 +12,9 @@ jobs:
     dependency-scan:
         uses: ./.github/workflows/dependency-scan.yml
     docker-scan:
-        uses: ./.github/workflows/docker-lint.yml    
-    
+        uses: ./.github/workflows/docker-lint.yml  
+    # Build once the securtiy scan are complete   
+    build:
+        needs: [code-quality, secrets-scan, dependency-scan, docker-scan]
+        uses: ./.github/workflows/docker-build-push.yml
+        secrets: inherit  
