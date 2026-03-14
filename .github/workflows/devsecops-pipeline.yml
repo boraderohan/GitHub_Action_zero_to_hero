@@ -16,5 +16,5 @@ jobs:
     # Build once the securtiy scan are complete   
     build:
         needs: [code-quality, secrets-scan, dependency-scan, docker-scan]
-        uses: ./.github/workflows/Docker-Build-Push.yml
+        uses: ./.github/workflows/Docker_Build_Push.yml
         secrets: inherit  
