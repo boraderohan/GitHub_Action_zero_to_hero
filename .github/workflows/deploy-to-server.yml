@@ -27,26 +27,34 @@ jobs:
                  sudo apt-get update && sudo apt-get install docker.io docker-compose-v2 -y
                  sudo usermod -aG docker $USER
                  mkdir -p devops
-
-            - name: Copy the docker-compose file
-              uses: appleboy/scp-action@v1
-              with:
-                host: ${{ secrets.EC2_SSH_HOST }}
-                username: ${{ secrets.EC2_SSH_USER }}
-                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-                source: docker-compose.yml
-                target: ~/devops
-                
-            - name: SSH to Prod server & run the app
+            - name: Copy Docker Compose File
               uses: appleboy/ssh-action@v1.0.3
               with:
                 host: ${{ secrets.EC2_SSH_HOST }}
                 username: ${{ secrets.EC2_SSH_USER }}
                 key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
                 script: |
-                 echo "Running App"
-                
-                 export DOCKERHUB_USER=${{ vars.DOCKERHUB_USER }}
-                 export DOCKER_TAG=${{ github.sha }}
-                 echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ vars.DOCKERHUB_USER }} --password-stdin
-                 cd ~/devops && docker compose down && docker compose up -d --build --force-recreate --pull always
+                  mkdir -p ~/devops
+                  echo "Directory created"
+
+            - name: Copy docker-compose.yml to Server
+              uses: appleboy/scp-action@v1
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                source: docker-compose.yml
+                target: ~/devops/
+
+            - name: SSH to Prod Server & Deploy
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                script: |
+                  echo "Logging into Docker Hub"
+                  echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ vars.DOCKERHUB_USER }} --password-stdin
+                  cd ~/devops
+                  docker compose down || true
+                  docker compose up -d --build --force-recreate --pull always
